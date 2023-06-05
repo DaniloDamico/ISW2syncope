@@ -52,6 +52,7 @@ under the License.
     <dependency>
       <groupId>org.apereo.cas</groupId>
       <artifactId>cas-server-core-configuration-api</artifactId>
+      <version>6.6.8</version>
     </dependency>
     <dependency>
       <groupId>org.apereo.cas</groupId>
