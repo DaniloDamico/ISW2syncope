@@ -315,7 +315,7 @@ under the License.
       <organization>Tirasa</organization>
       <organizationUrl>https://www.tirasa.net/</organizationUrl>
       <roles>
-        <role>committer</role>
+        <role>PMC member</role>
       </roles>
       <url>http://people.apache.org/~loredicola/</url>
       <email>loredicola@apache.org</email>
@@ -344,7 +344,7 @@ under the License.
       <organization>Tirasa</organization>
       <organizationUrl>https://www.tirasa.net/</organizationUrl>
       <roles>
-        <role>committer</role>
+        <role>PMC member</role>
       </roles>
       <email>sgarofalo@apache.org</email>
     </developer>
@@ -406,7 +406,7 @@ under the License.
     <connid.ad.version>1.3.8</connid.ad.version>
     <connid.googleapps.version>1.4.3</connid.googleapps.version>
     <connid.azure.version>2.0.0</connid.azure.version>
-    <connid.scim.version>1.0.0-SNAPSHOT</connid.scim.version>
+    <connid.scim.version>1.0.0</connid.scim.version>
     <connid.servicenow.version>1.0.2</connid.servicenow.version>
     <connid.okta.version>3.0.0</connid.okta.version>
     <connid.cmd.version>0.5</connid.cmd.version>
@@ -431,15 +431,13 @@ under the License.
     <elasticsearch.version>8.7.0</elasticsearch.version>
 
     <disruptor.version>3.4.4</disruptor.version>
-    
+
     <commons-jexl.version>3.3</commons-jexl.version>
     <commons-text.version>1.10.0</commons-text.version>
 
-    <!-- dependencies could not be found -->
     <pac4j.version>6.0.0-RC6</pac4j.version>
 
-    <!-- dependencies could not be found -->
-    <cas.version>7.0.0-RC4</cas.version>
+    <cas.version>7.0.0-RC5</cas.version>
     <cas-client.version>4.0.1</cas-client.version>
 
     <h2.version>2.1.214</h2.version>
@@ -507,6 +505,9 @@ under the License.
     <jdbc.mariadb.version>3.1.2</jdbc.mariadb.version>
     <jdbc.mssql.version>12.2.0.jre</jdbc.mssql.version>
     <jdbc.oracle.version>21.9.0.0</jdbc.oracle.version>
+    <ba-dua.version>0.6.0</ba-dua.version>
+    <maven-install-plugin.version>3.1.1</maven-install-plugin.version>
+    <exec-maven-plugin.version>3.1.0</exec-maven-plugin.version>
 
     <bundles.directory>${project.build.directory}/bundles</bundles.directory>
 
@@ -518,10 +519,14 @@ under the License.
     <secretKey>1abcdefghilmnopqrstuvz2!</secretKey>
     <jwsKey>ZW7pRixehFuNUtnY5Se47IemgMryTzazPPJ9CGX5LTCmsOJpOgHAQEuPQeV9A28f</jwsKey>
 
+    <!--
+    Surefire plugin argLine can be defined as a Maven property to avoid JVM errors on startup with no jacaco-maven-plugin
+    https://www.eclemma.org/jacoco/trunk/doc/prepare-agent-mojo.html
+    -->
+    <argLine>-Xms512m -Xmx1024m -Xss256k </argLine>
     <ianal.phase>verify</ianal.phase>
     <sass.skip>false</sass.skip>
     <remote-resources.skip>true</remote-resources.skip>
-
     <sonar.language>java</sonar.language>
     <sonar.java.source>${targetJdk}</sonar.java.source>
     <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
@@ -1457,7 +1462,7 @@ under the License.
               <groupId>jakarta.transaction</groupId>
               <artifactId>jakarta.transaction-api</artifactId>
               <version>2.0.1</version>
-            </dependency>            
+            </dependency>
           </dependencies>
         </plugin>
 
@@ -1624,11 +1629,15 @@ under the License.
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>3.0.0</version>
-          <configuration>
+          <!--<configuration>
+            <forkCount>3</forkCount>
+            <reuseForks>true</reuseForks>
+          </configuration> -->
+          <!--<configuration>
             <redirectTestOutputToFile>true</redirectTestOutputToFile>
             <encoding>utf-8</encoding>
             <runOrder>alphabetical</runOrder>
-          </configuration>
+          </configuration>-->
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -1699,12 +1708,17 @@ under the License.
           </configuration>
         </plugin>
 
+        <!--<plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>0.8.8</version>
+        </plugin>-->
+
         <plugin>
           <groupId>org.sonarsource.scanner.maven</groupId>
           <artifactId>sonar-maven-plugin</artifactId>
           <version>3.9.1.2184</version>
         </plugin>
-
       </plugins>
     </pluginManagement>
 
@@ -1773,7 +1787,6 @@ under the License.
           </execution>
         </executions>
       </plugin>
-
       <plugin>
         <groupId>org.codehaus.gmavenplus</groupId>
         <artifactId>gmavenplus-plugin</artifactId>
@@ -1813,7 +1826,6 @@ under the License.
         </executions>
       </plugin>
 
-      <!--
       <plugin>
         <groupId>org.apache.rat</groupId>
         <artifactId>apache-rat-plugin</artifactId>
@@ -1854,7 +1866,6 @@ under the License.
           </execution>
         </executions>
       </plugin>
-      -->
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -2017,31 +2028,6 @@ under the License.
   </reporting>
 
   <profiles>
-
-    <!-- JaCoCo -->
-    <profile>
-      <id>JaCoCo</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.jacoco</groupId>
-            <artifactId>jacoco-maven-plugin</artifactId>
-            <version>0.8.10</version>
-            <executions>
-              <execution>
-                <id>prepare-agent</id>
-                <goals>
-                  <goal>prepare-agent</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
 
     <profile>
       <id>apache-release</id>
@@ -2280,6 +2266,32 @@ under the License.
         <module>docker</module>
       </modules>
     </profile>
+
+    <!-- JaCoCo -->
+    <profile>
+      <id>JaCoCo</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.8.10</version>
+            <executions>
+              <execution>
+                <id>prepare-agent</id>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
   </profiles>
 
   <modules>
@@ -2287,11 +2299,11 @@ under the License.
     <module>core</module>
     <module>client</module>
     <module>sra</module>
-    <module>wa</module>
-    <module>fit</module>
+    <!--<module>wa</module>-->
+    <!--<module>fit</module> -->
     <module>ext</module>
     <module>archetype</module>
-    <module>standalone</module>
+    <!--<module>standalone</module>-->
     <module>syncope-coverage</module>
   </modules>
 

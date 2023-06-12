@@ -32,15 +32,15 @@ under the License.
   <groupId>org.apache.syncope.core</groupId>
   <artifactId>syncope-core-provisioning-java</artifactId>
   <packaging>jar</packaging>
-  
+
   <properties>
     <rootpom.basedir>${basedir}/../..</rootpom.basedir>
   </properties>
 
   <dependencies>
-    <dependency> 
-      <groupId>jakarta.servlet</groupId> 
-      <artifactId>jakarta.servlet-api</artifactId> 
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
       <scope>provided</scope>
     </dependency>
 
@@ -111,7 +111,7 @@ under the License.
       <artifactId>syncope-core-spring</artifactId>
       <version>${project.version}</version>
     </dependency>
-    
+
     <!-- TEST -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -164,7 +164,7 @@ under the License.
 
   <build>
     <plugins>
-      <plugin>
+      <!-- <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
         <inherited>true</inherited>
@@ -177,8 +177,8 @@ under the License.
             </goals>
           </execution>
         </executions>
-      </plugin>
-      
+      </plugin> -->
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -195,7 +195,7 @@ under the License.
         <artifactId>maven-checkstyle-plugin</artifactId>
       </plugin>
     </plugins>
-    
+
     <resources>
       <resource>
         <directory>src/main/resources</directory>

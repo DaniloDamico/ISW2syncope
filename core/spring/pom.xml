@@ -32,18 +32,18 @@ under the License.
   <groupId>org.apache.syncope.core</groupId>
   <artifactId>syncope-core-spring</artifactId>
   <packaging>jar</packaging>
-  
+
   <properties>
     <rootpom.basedir>${basedir}/../..</rootpom.basedir>
   </properties>
 
-  <dependencies>    
-    <dependency> 
-      <groupId>jakarta.servlet</groupId> 
-      <artifactId>jakarta.servlet-api</artifactId> 
+  <dependencies>
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
       <scope>provided</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-text</artifactId>
@@ -89,7 +89,7 @@ under the License.
       <groupId>org.apache.syncope.core</groupId>
       <artifactId>syncope-core-provisioning-api</artifactId>
       <version>${project.version}</version>
-    </dependency>        
+    </dependency>
     <dependency>
       <groupId>org.apache.syncope.common.idm</groupId>
       <artifactId>syncope-common-idm-rest-api</artifactId>
@@ -105,7 +105,7 @@ under the License.
       <artifactId>syncope-common-keymaster-client-api</artifactId>
       <version>${project.version}</version>
     </dependency>
-    
+
     <!-- TEST -->
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -117,17 +117,10 @@ under the License.
       <artifactId>spring-test</artifactId>
       <scope>test</scope>
     </dependency>
-
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-      <version>5.3.1</version>
-      <scope>test</scope>
-    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.13.2</version>
+      <version>4.12</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -138,7 +131,6 @@ under the License.
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
       </plugin>
-
     </plugins>
     <resources>
       <resource>
@@ -159,27 +151,35 @@ under the License.
   </build>
 
   <profiles>
-
     <!-- PIT -->
     <profile>
       <id>PIT</id>
       <activation>
         <activeByDefault>false</activeByDefault>
       </activation>
+      <properties>
+        <withHistory>true</withHistory>
+        <pitest.version>1.14.0</pitest.version>
+        <pitest.history.file>${project.build.directory}/pitest.history</pitest.history.file>
+      </properties>
       <build>
         <plugins>
           <plugin>
             <groupId>org.pitest</groupId>
             <artifactId>pitest-maven</artifactId>
-            <version>1.14.1</version>
+            <version>${pitest.version}</version>
             <configuration>
-              <verbose>true</verbose>
               <targetClasses>
                 <param>org.apache.syncope.core.spring.security.Encryptor</param>
               </targetClasses>
               <targetTests>
                 <param>org.apache.syncope.core.spring.security.EncryptorTest</param>
               </targetTests>
+              <avoidCallsTo>
+                <avoidCallsTo>org.slf4j</avoidCallsTo>
+              </avoidCallsTo>
+              <historyInputFile>${pitest.history.file}</historyInputFile>
+              <historyOutputFile>${pitest.history.file}</historyOutputFile>
             </configuration>
             <executions>
               <execution>
@@ -202,49 +202,24 @@ under the License.
         <activeByDefault>false</activeByDefault>
       </activation>
       <properties>
-        <ba-dua.version>0.8.1-SNAPSHOT</ba-dua.version>
-        <maven.compiler.source>${java.specification.version}</maven.compiler.source>
-        <maven.compiler.target>${java.specification.version}</maven.compiler.target>
-        <argLine>-javaagent:${project.parent.parent.basedir}/lib/ba-dua-agent-rt-${ba-dua.version}-all.jar -Doutput.file=${project.build.directory}/badua.ser</argLine>
+        <ba-dua.version>0.6.0</ba-dua.version>
+        <argLine>-javaagent:target/dependency/ba-dua-agent-rt-${ba-dua.version}-all.jar -Doutput.file=${project.build.directory}/badua.ser</argLine>
       </properties>
-
       <dependencies>
         <dependency>
           <groupId>br.usp.each.saeg</groupId>
           <artifactId>ba-dua-cli</artifactId>
+          <classifier>all</classifier>
           <version>${ba-dua.version}</version>
         </dependency>
       </dependencies>
-
       <build>
         <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-dependency-plugin</artifactId>
-            <version>2.10</version>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>copy</goal>
-                </goals>
-                <configuration>
-                  <artifactItems>
-                    <artifactItem>
-                      <groupId>br.usp.each.saeg</groupId>
-                      <artifactId>ba-dua-agent-rt</artifactId>
-                      <classifier>all</classifier>
-                      <version>${ba-dua.version}</version>
-                    </artifactItem>
-                  </artifactItems>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
 
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>exec-maven-plugin</artifactId>
-            <version>1.5.0</version>
+            <version>3.1.0</version>
             <executions>
               <execution>
                 <goals>
@@ -267,9 +242,9 @@ under the License.
               </execution>
             </executions>
           </plugin>
+
         </plugins>
       </build>
     </profile>
   </profiles>
-
 </project>

@@ -46,7 +46,7 @@ under the License.
     <dependency>
       <groupId>org.apache.syncope.wa</groupId>
       <artifactId>syncope-wa-bootstrap</artifactId>
-      <version>3.0.3</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.syncope.common.keymaster</groupId>
@@ -236,7 +236,6 @@ under the License.
     <dependency>
       <groupId>org.apereo.cas</groupId>
       <artifactId>cas-server-support-pac4j-webflow</artifactId>
-      <version>6.6.8</version>
     </dependency>
     <dependency>
       <groupId>org.apereo.cas</groupId>
@@ -361,7 +360,6 @@ under the License.
     <dependency>
       <groupId>org.apereo.cas</groupId>
       <artifactId>cas-server-support-passwordless-api</artifactId>
-      <version>7.0.0-RC3</version>
     </dependency>
 
     <dependency>

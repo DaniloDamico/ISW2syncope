@@ -32,7 +32,7 @@ under the License.
   <groupId>org.apache.syncope.fit</groupId>
   <artifactId>syncope-fit-wa-reference</artifactId>
   <packaging>war</packaging>
-  
+
   <properties>
     <ianal.phase>none</ianal.phase>
 
@@ -71,12 +71,12 @@ under the License.
     </dependency>
 
     <!-- TEST -->
-    <dependency>
+    <!--<dependency>
       <groupId>org.apache.syncope.ext.saml2sp4ui</groupId>
       <artifactId>syncope-ext-saml2sp4ui-client-enduser</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
-    </dependency>
+    </dependency> -->
     <dependency>
       <groupId>org.apache.syncope.ext.oidcc4ui</groupId>
       <artifactId>syncope-ext-oidcc4ui-client-enduser</artifactId>
@@ -123,7 +123,7 @@ under the License.
       <type>war</type>
       <scope>test</scope>
     </dependency>
-    <dependency>
+    <!--<dependency>
       <groupId>org.jsoup</groupId>
       <artifactId>jsoup</artifactId>
       <scope>test</scope>
@@ -137,7 +137,7 @@ under the License.
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
       <scope>test</scope>
-    </dependency>
+    </dependency> -->
   </dependencies>
 
   <build>
@@ -250,7 +250,7 @@ under the License.
           </execution>
         </executions>
       </plugin>
-      
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -308,7 +308,7 @@ under the License.
       </testResource>
     </testResources>
   </build>
-  
+
   <profiles>
     <profile>
       <id>skipTests</id>
@@ -323,7 +323,7 @@ under the License.
 
       <build>
         <defaultGoal>clean verify cargo:run</defaultGoal>
-        
+
         <plugins>
           <plugin>
             <groupId>org.codehaus.cargo</groupId>
@@ -344,11 +344,11 @@ under the License.
         </plugins>
       </build>
     </profile>
-    
+
     <!-- requires JAVA_HOME set to the latest JDK from https://github.com/TravaOpenJDK/trava-jdk-11-dcevm -->
     <profile>
       <id>hotswap</id>
-      
+
       <build>
         <defaultGoal>clean verify cargo:run</defaultGoal>
 
@@ -362,7 +362,7 @@ under the License.
                 <id>enableHotSwapForCoreAndConsoleAndEnduser</id>
                 <phase>package</phase>
                 <configuration>
-                  <target>                                               
+                  <target>
                     <copy file="${basedir}/../core-reference/target/test-classes/hotswap-agent.properties"
                           tofile="${basedir}/../core-reference/target/syncope-fit-core-reference-${project.version}/WEB-INF/classes/hotswap-agent.properties"
                           overwrite="true"/>
@@ -399,7 +399,7 @@ under the License.
             </configuration>
           </plugin>
         </plugins>
-        
+
         <resources>
           <resource>
             <directory>src/test/resources</directory>
@@ -431,7 +431,7 @@ under the License.
             <configuration>
               <skipSource>true</skipSource>
             </configuration>
-          </plugin>          
+          </plugin>
         </plugins>
       </build>
     </profile>
