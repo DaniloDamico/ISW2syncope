@@ -5,4 +5,6 @@ public enum PasswordGenratorEnum {
     UPPER,
     LOWER,
     DIGIT,
+    JACOCO,
+    EXACT
 }

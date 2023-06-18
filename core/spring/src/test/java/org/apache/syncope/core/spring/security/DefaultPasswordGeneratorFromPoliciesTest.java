@@ -202,6 +202,11 @@ public class DefaultPasswordGeneratorFromPoliciesTest {
         jacocoMax.getWordsNotPermitted().add("ciao");
         List<PasswordPolicy> jacocoMaxPolicy = List.of(createPasswordPolicy(jacocoMax));
 
+        DefaultPasswordRuleConf exactLengthConf = new DefaultPasswordRuleConf();
+        exactLengthConf.setMaxLength(5);
+        exactLengthConf.setMinLength(5);
+        List<PasswordPolicy> exactpolicy = List.of(createPasswordPolicy(exactLengthConf));
+
         return Arrays.asList(new Object[][]{
                 //Policies                          case                                value                   expectedException
                 {null,                              null,                               0,                      true},
@@ -248,7 +253,9 @@ public class DefaultPasswordGeneratorFromPoliciesTest {
                 {notUserPolicies,                   null,                               0,                      false},
 
                 //Jacoco
-                {jacocoMaxPolicy,                   null,                               0,                      false},
+                {jacocoMaxPolicy,                   PasswordGenratorEnum.JACOCO,        0,                      false},
+
+                {exactpolicy,                       PasswordGenratorEnum.EXACT,         5,                      false},
         });
     }
 
@@ -304,6 +311,15 @@ public class DefaultPasswordGeneratorFromPoliciesTest {
             }
             case DIGIT -> {
                 assert password.matches(".*[0-9].*");
+            }
+            case JACOCO -> {
+                assert password.length() <= 16;
+                assert password.matches(".*[@!%].*");
+                assert !password.matches(".*[ab].*");
+                assert !password.contains("ciao");
+            }
+            case EXACT -> {
+                assert password.length() == 5;
             }
             default -> {
                 assert true;
