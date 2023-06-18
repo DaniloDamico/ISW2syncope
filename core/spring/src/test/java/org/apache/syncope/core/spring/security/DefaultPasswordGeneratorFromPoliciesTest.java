@@ -190,6 +190,18 @@ public class DefaultPasswordGeneratorFromPoliciesTest {
 
         List<PasswordPolicy> conflictingUpperPolicies = List.of(firstPolicy, conflUpperPolicy);
 
+        //Jacoco
+        DefaultPasswordRuleConf jacocoMax = new DefaultPasswordRuleConf();
+        jacocoMax.setMaxLength(16);
+        jacocoMax.setSpecial(1);
+        jacocoMax.getSpecialChars().add('@');
+        jacocoMax.getSpecialChars().add('!');
+        jacocoMax.getSpecialChars().add('%');
+        jacocoMax.getIllegalChars().add('a');
+        jacocoMax.getIllegalChars().add('b');
+        jacocoMax.getWordsNotPermitted().add("ciao");
+        List<PasswordPolicy> jacocoMaxPolicy = List.of(createPasswordPolicy(jacocoMax));
+
         return Arrays.asList(new Object[][]{
                 //Policies                          case                                value                   expectedException
                 {null,                              null,                               0,                      true},
@@ -234,6 +246,9 @@ public class DefaultPasswordGeneratorFromPoliciesTest {
 
                 {userPolicies,                      null,                               0,                      false},
                 {notUserPolicies,                   null,                               0,                      false},
+
+                //Jacoco
+                {jacocoMaxPolicy,                   null,                               0,                      false},
         });
     }
 
@@ -263,6 +278,7 @@ public class DefaultPasswordGeneratorFromPoliciesTest {
 
         System.out.println(password);
         assert !password.isEmpty();
+        assert password.length() <= 64; // MAX_VALUE
 
         //check that it follows the indicated policies
         if(check == null) {

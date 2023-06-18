@@ -25,8 +25,6 @@ import org.apache.syncope.core.persistence.api.entity.policy.PasswordPolicy;
 
 public class PasswordPolicyImpl implements PasswordPolicy {
 
-    private static final long serialVersionUID = 4978614846223679095L;
-
     private final List<Implementation> rules = new ArrayList<>();
 
     public PasswordPolicyImpl(final Implementation rule) {
